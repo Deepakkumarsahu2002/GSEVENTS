@@ -4,7 +4,7 @@ This file lists tasks to finish to consider the project production-ready and how
 
 Frontend (Cloudflare Pages)
 - Build command: npm run build
-- Publish directory: .output/public
+- Publish directory: dist/client
 - Ensure public/favicon.png and public/og-image.jpg are present (optimize images with npm run optimize:images)
 - Add custom domain and enable HTTPS in Pages
 - Ensure sitemap.xml at /sitemap.xml and robots.txt are present

@@ -1,19 +1,20 @@
 Cloudflare Pages deployment guide — Frontend
 
 Overview
-- This project builds a static site for the frontend into `.output/public` when running `npm run build`.
-- Cloudflare Pages can serve the contents of `.output/public` as the publish directory.
+- This project builds a static frontend bundle into `dist/client` when running `npm run build`.
+- Cloudflare Pages can serve the contents of `dist/client` as the publish directory.
 
 Recommended Cloudflare Pages settings
 - Framework preset: None (Use Custom Build)
 - Build command: npm run build
-- Build directory (publish directory): .output/public
+- Build directory (publish directory): dist/client
 - Node version: 18.x or 20.x (set in Pages or use .nvmrc)
-- Install command: npm ci
+- Install command: npm install
 
 Environment / build notes
-- The frontend is a TanStack Start app. The `npm run build` command produces `.output/public` (static assets) and server artifacts. For a static Pages deployment, use `.output/public`.
-- If you need server-side features (SSR or server functions), consider deploying server output to Cloudflare Workers or keep backend on Render (recommended) and use Pages for the static site + CDN.
+- Vite produces the static browser bundle in `dist/client` for Pages hosting.
+- The server output under `dist/server` is not used for static Pages deployment.
+- If you need SSR or server functions, deploy the backend separately or use a Worker-based runtime.
 
 Custom domain & SSL
 - Add your custom domain in Pages -> Custom Domains.
