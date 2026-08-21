@@ -74,7 +74,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-[oklch(0.68_0.02_80)] sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {brand.name}. All rights reserved. Designed and developed by{" Deepak Kumar Sahu "}
+            © {new Date().getFullYear()} {brand.name}. All rights reserved. Designed and Developed by{" Deepak Kumar Sahu "}
           </p>
           <div className="flex items-center gap-3">
             <span>Designed for celebrations that last a lifetime.</span>
