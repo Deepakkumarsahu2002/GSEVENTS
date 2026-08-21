@@ -151,6 +151,13 @@ async function uploadToCloudinary(buffer, fileName) {
   });
 }
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'GS Events backend is running',
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, status: 'running' });
 });
