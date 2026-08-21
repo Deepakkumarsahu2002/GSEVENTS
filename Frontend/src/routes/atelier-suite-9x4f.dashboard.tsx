@@ -1,13 +1,9 @@
-﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FileText, Images, LogOut, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { photos as seedPhotos, type GalleryCategory, type Photo } from "@/lib/site-data";
 import { API_BASE, authHeader } from "@/lib/api";
-
-export const Route = createFileRoute("/atelier-suite-9x4f/dashboard")({
-  component: StudioDashboard,
-});
 
 const categories: GalleryCategory[] = ["WEDDING", "CATERING", "EVENTS", "DECORATION"];
 const field =
@@ -71,14 +67,14 @@ const defaultServices = (): ServiceItem[] => [
   },
 ];
 
-function StudioDashboard() {
+export function StudioDashboard() {
   const navigate = useNavigate();
   const [tab, setTab] = useState<"photos" | "bill-generator">("photos");
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (!sessionStorage.getItem("studio_session")) {
-      navigate({ to: "/atelier-suite-9x4f" });
+      navigate("/atelier-suite-9x4f");
       return;
     }
     setReady(true);
@@ -87,7 +83,7 @@ function StudioDashboard() {
   if (!ready) return null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f9f3eb_0%,#f7f3ec_100%)]">
       <header className="border-b border-border bg-espresso">
         <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-5 md:px-8">
           <div className="min-w-0">
@@ -99,9 +95,9 @@ function StudioDashboard() {
             onClick={() => {
               sessionStorage.removeItem("studio_session");
               sessionStorage.removeItem("studio_token");
-              navigate({ to: "/" });
+              navigate("/");
             }}
-            className="inline-flex shrink-0 items-center gap-2 border border-primary/40 px-4 py-2.5 text-[0.65rem] uppercase tracking-[0.2em] text-primary"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/40 px-4 py-2.5 text-[0.65rem] uppercase tracking-[0.2em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
           >
             <LogOut className="size-3.5" /> Sign out
           </button>
@@ -109,25 +105,27 @@ function StudioDashboard() {
       </header>
 
       <div className="mx-auto max-w-6xl px-5 py-10 md:px-8">
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setTab("photos")}
-            className={`inline-flex items-center gap-2 border px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.2em] transition-colors ${
-              tab === "photos" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-transparent text-foreground"
-            }`}
-          >
-            <Images className="size-3.5" /> Photos
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab("bill-generator")}
-            className={`inline-flex items-center gap-2 border px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.2em] transition-colors ${
-              tab === "bill-generator" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-transparent text-foreground"
-            }`}
-          >
-            <FileText className="size-3.5" /> Bill Generator
-          </button>
+        <div className="soft-panel rounded-[26px] p-3 sm:p-4">
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setTab("photos")}
+              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.2em] transition-all ${
+                tab === "photos" ? "border-primary bg-primary text-primary-foreground shadow-[0_18px_30px_-22px_rgba(184,134,59,0.85)]" : "border-border bg-transparent text-foreground hover:border-primary hover:text-primary"
+              }`}
+            >
+              <Images className="size-3.5" /> Photos
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab("bill-generator")}
+              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.2em] transition-all ${
+                tab === "bill-generator" ? "border-primary bg-primary text-primary-foreground shadow-[0_18px_30px_-22px_rgba(184,134,59,0.85)]" : "border-border bg-transparent text-foreground hover:border-primary hover:text-primary"
+              }`}
+            >
+              <FileText className="size-3.5" /> Bill Generator
+            </button>
+          </div>
         </div>
 
         <div className="mt-10">{tab === "photos" ? <PhotoManager /> : <AdminBillGenerator />}</div>

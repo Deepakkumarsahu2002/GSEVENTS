@@ -1,33 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { photos as seedPhotos, type GalleryCategory, type Photo } from "@/lib/site-data";
 import { API_BASE } from "@/lib/api";
 
-export const Route = createFileRoute("/gallery")({
-  head: () => ({
-    meta: [
-      { title: "Gallery — Weddings, Decor & Cuisine | GS Events & Catering" },
-      {
-        name: "description",
-        content:
-          "Browse our portfolio of weddings, corporate events, decor installations and catering photographed at real celebrations.",
-      },
-      { property: "og:title", content: "Gallery — GS Events & Catering" },
-      {
-        property: "og:description",
-        content: "Weddings, corporate events, food and decor from recent celebrations.",
-      },
-    ],
-  }),
-  component: Gallery,
-});
-
 const tabs = ["ALL", "WEDDING", "CATERING", "EVENTS", "DECORATION"] as const;
 const PAGE = 8;
 
-function Gallery() {
+export function Gallery() {
   const [tab, setTab] = useState<(typeof tabs)[number]>("ALL");
   const [count, setCount] = useState(PAGE);
   const [lightbox, setLightbox] = useState<number | null>(null);
@@ -68,14 +48,17 @@ function Gallery() {
 
   return (
     <>
-      <section className="border-b border-border bg-accent/30 px-5 py-20 text-center md:px-8 md:py-24">
-        <p className="eyebrow">Portfolio</p>
-        <h1 className="mx-auto mt-5 max-w-3xl font-serif text-4xl leading-tight tracking-wide md:text-5xl">
-          Gallery
-        </h1>
-        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          Real celebrations, unretouched. Filter by category to see what interests you most.
-        </p>
+      <section className="relative overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top,_rgba(184,134,59,0.12),_transparent_25%),linear-gradient(180deg,#f7f1e8_0%,#f9f7f4_100%)] px-5 py-20 text-center md:px-8 md:py-24">
+        <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(43,31,23,0.04),transparent)]" />
+        <div className="relative mx-auto max-w-4xl">
+          <p className="eyebrow">Portfolio</p>
+          <h1 className="mx-auto mt-5 max-w-3xl font-serif text-4xl leading-tight tracking-[0.02em] md:text-5xl lg:text-6xl">
+            Gallery
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            Real celebrations, unretouched. Filter by category to see the details, textures, and moments that made each event feel unforgettable.
+          </p>
+        </div>
       </section>
 
       <section className="px-5 py-14 md:px-8 md:py-20">
@@ -86,10 +69,10 @@ function Gallery() {
                 key={t}
                 type="button"
                 onClick={() => setTab(t)}
-                className={`shrink-0 border px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.2em] transition-colors ${
+                className={`shrink-0 rounded-full border px-5 py-2.5 text-[0.68rem] uppercase tracking-[0.2em] transition-all ${
                   tab === t
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    ? "border-primary bg-primary text-primary-foreground shadow-[0_18px_30px_-22px_rgba(184,134,59,0.85)]"
+                    : "border-border bg-white/25 text-muted-foreground hover:border-primary hover:text-primary"
                 }`}
               >
                 {t}
@@ -103,17 +86,19 @@ function Gallery() {
                 <button
                   type="button"
                   onClick={() => setLightbox(i)}
-                  className="group block w-full overflow-hidden shadow-soft"
+                  className="group block w-full overflow-hidden rounded-[22px] border border-border bg-card shadow-soft transition-transform hover:-translate-y-1"
                   aria-label={`Open image: ${p.alt}`}
                 >
-                  <img
-                    src={p.src}
-                    alt={p.alt}
-                    loading="lazy"
-                    width={1024}
-                    height={1024}
-                    className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  <div className="image-frame">
+                    <img
+                      src={p.src}
+                      alt={p.alt}
+                      loading="lazy"
+                      width={1024}
+                      height={1024}
+                      className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
                 </button>
               </Reveal>
             ))}
@@ -124,7 +109,7 @@ function Gallery() {
               <button
                 type="button"
                 onClick={() => setCount((c) => c + PAGE)}
-                className="border border-primary px-8 py-3.5 text-[0.7rem] uppercase tracking-[0.24em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                className="premium-button"
               >
                 Load More
               </button>
@@ -144,7 +129,7 @@ function Gallery() {
             type="button"
             aria-label="Close"
             onClick={() => setLightbox(null)}
-            className="absolute right-5 top-5 p-2 text-[oklch(0.9_0.02_80)]"
+            className="absolute right-5 top-5 rounded-full border border-white/20 bg-white/5 p-2 text-[oklch(0.9_0.02_80)] backdrop-blur-sm"
           >
             <X className="size-6" />
           </button>
@@ -155,7 +140,7 @@ function Gallery() {
               e.stopPropagation();
               setLightbox((i) => ((i ?? 0) - 1 + filtered.length) % filtered.length);
             }}
-            className="absolute left-3 p-3 text-[oklch(0.9_0.02_80)] md:left-8"
+            className="absolute left-3 rounded-full border border-white/20 bg-white/5 p-3 text-[oklch(0.9_0.02_80)] backdrop-blur-sm md:left-8"
           >
             <ChevronLeft className="size-8" />
           </button>
@@ -163,7 +148,7 @@ function Gallery() {
             <img
               src={current.src}
               alt={current.alt}
-              className="max-h-[78vh] w-auto max-w-full object-contain shadow-lift"
+              className="max-h-[78vh] w-auto max-w-full rounded-[20px] object-contain shadow-lift"
             />
             <figcaption className="mt-4 text-center text-sm text-[oklch(0.82_0.02_80)]">
               {current.alt} · <span className="text-primary">{current.category}</span>
@@ -176,7 +161,7 @@ function Gallery() {
               e.stopPropagation();
               setLightbox((i) => ((i ?? 0) + 1) % filtered.length);
             }}
-            className="absolute right-3 p-3 text-[oklch(0.9_0.02_80)] md:right-8"
+            className="absolute right-3 rounded-full border border-white/20 bg-white/5 p-3 text-[oklch(0.9_0.02_80)] backdrop-blur-sm md:right-8"
           >
             <ChevronRight className="size-8" />
           </button>

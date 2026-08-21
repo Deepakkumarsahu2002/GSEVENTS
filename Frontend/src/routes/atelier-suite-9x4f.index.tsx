@@ -1,15 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { toast } from "sonner";
 
 import { API_BASE } from "@/lib/api";
 
-export const Route = createFileRoute("/atelier-suite-9x4f/")({
-  component: StudioLogin,
-});
-
-function StudioLogin() {
+export function StudioLogin() {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,7 +31,7 @@ function StudioLogin() {
       sessionStorage.setItem("studio_session", email);
       sessionStorage.setItem("studio_token", payload.token);
       toast.success("Signed in");
-      navigate({ to: "/atelier-suite-9x4f/dashboard" });
+      navigate("/atelier-suite-9x4f/dashboard");
     } catch (error) {
       // If the backend isn't running during local development, allow a dev fallback
       if (import.meta.env.DEV && error instanceof TypeError) {
@@ -44,7 +40,7 @@ function StudioLogin() {
         sessionStorage.setItem("studio_session", email);
         sessionStorage.setItem("studio_token", devToken);
         toast.success("Signed in (dev fallback - backend offline)");
-        navigate({ to: "/atelier-suite-9x4f/dashboard" });
+        navigate("/atelier-suite-9x4f/dashboard");
       } else {
         toast.error(error instanceof Error ? error.message : "Login failed");
       }

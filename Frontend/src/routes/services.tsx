@@ -1,32 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Utensils } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Reveal, SectionHeading } from "@/components/site/Reveal";
 import { images } from "@/lib/site-data";
-
-export const Route = createFileRoute("/services")({
-  head: () => ({
-    meta: [
-      { title: "Services & Catering — GS Events & Catering" },
-      {
-        name: "description",
-        content:
-          "Weddings, thread ceremonies, house warmings, corporate events, decor and full-service catering with buffet, plated and live counters.",
-      },
-      {
-        name: "keywords",
-        content:
-          "Best Event Management in Berhampur, Best Event Management in Odisha, Best Event Management in Brahmapur, Best Catering in Odisha, Best Catering Service in Odisha, Best Catering Service in Berhampur",
-      },
-      { property: "og:title", content: "Services & Catering — GS Events & Catering" },
-      {
-        property: "og:description",
-        content:
-          "Bespoke event design and catering: buffet, plated service, live counters and complete decor.",
-      },
-    ],
-  }),
-  component: Services,
-});
 
 const categories = [
   {
@@ -146,7 +121,7 @@ const cuisines = [
   { name: "Jain / Satvik", tag: "Without Onion Garlic" },
 ];
 
-function Services() {
+export function Services() {
   return (
     <>
       <section className="border-b border-border bg-accent/30 px-5 py-20 text-center md:px-8 md:py-24">
@@ -160,15 +135,17 @@ function Services() {
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((c) => (
             <Reveal key={c.title}>
-              <article className="group flex h-full flex-col border border-border bg-card shadow-soft transition-shadow hover:shadow-lift">
-                <img
-                  src={c.image}
-                  alt={c.title}
-                  loading="lazy"
-                  width={1024}
-                  height={768}
-                  className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+              <article className="feature-card group flex h-full flex-col overflow-hidden rounded-[24px] border border-border bg-card">
+                <div className="image-frame">
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    loading="lazy"
+                    width={1024}
+                    height={768}
+                    className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
                 <div className="flex flex-1 flex-col p-7">
                   <h2 className="font-serif text-xl tracking-wide">{c.title}</h2>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
@@ -182,7 +159,7 @@ function Services() {
                   </ul>
                   <Link
                     to="/contact"
-                    className="mt-7 inline-block border border-primary px-6 py-3 text-center text-[0.7rem] uppercase tracking-[0.2em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                    className="mt-7 inline-block rounded-full border border-primary px-6 py-3 text-center text-[0.7rem] uppercase tracking-[0.2em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
                   >
                     Enquire Now
                   </Link>
@@ -206,8 +183,8 @@ function Services() {
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {cateringFormats.map((f) => (
               <Reveal key={f.title}>
-                <div className="h-full border border-primary/25 bg-[oklch(0.26_0.026_55)] p-0 overflow-hidden">
-                  <div className="overflow-hidden">
+                <div className="feature-card h-full overflow-hidden rounded-[24px] border border-primary/20 bg-[oklch(0.26_0.026_55)] p-0">
+                  <div className="image-frame overflow-hidden">
                     <img
                       src={f.image}
                       alt={f.title}

@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/site/Reveal";
 import {
@@ -123,32 +123,7 @@ const testimonialCards = [
   },
 ];
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "GS Events & Catering — Luxury Event Management & Fine Catering" },
-      {
-        name: "description",
-        content:
-          "Design-led weddings, ceremonies and corporate events with bespoke catering. 500+ celebrations crafted over 15 years.",
-      },
-      {
-        name: "keywords",
-        content:
-          "Best Event Management in Berhampur, Best Event Management in Odisha, Best Event Management in Brahmapur, Best Catering in Odisha, Best Catering Service in Odisha, Best Catering Service in Berhampur",
-      },
-      { property: "og:title", content: "GS Events & Catering — Luxury Events & Fine Catering" },
-      {
-        property: "og:description",
-        content:
-          "Crafting unforgettable celebrations: weddings, ceremonies, corporate events and bespoke catering.",
-      },
-    ],
-  }),
-  component: Home,
-});
-
-function Home() {
+export function Home() {
   const [photosState, setPhotosState] = useState<Photo[]>(seedPhotos);
   const testimonialTrackRef = useRef<HTMLDivElement | null>(null);
 
@@ -184,30 +159,42 @@ function Home() {
           height={1088}
           className="absolute inset-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-espresso/60" />
-        <div className="relative mx-auto max-w-3xl px-5 py-28 text-center">
-          <p className="eyebrow text-[oklch(0.86_0.03_80)]">Events &amp; Fine Catering</p>
-          <h1 className="mt-6 font-serif text-3xl leading-[1.15] tracking-wide text-[oklch(0.97_0.012_84.6)] sm:text-5xl md:text-6xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.18),_transparent_35%),linear-gradient(90deg,rgba(43,31,23,0.78),rgba(43,31,23,0.58),rgba(43,31,23,0.72))]" />
+        <div className="relative mx-auto max-w-6xl px-5 py-28 text-center">
+          <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[0.62rem] uppercase tracking-[0.26em] text-[oklch(0.91_0.02_80)] backdrop-blur-sm">
+            <span className="inline-block size-2 rounded-full bg-primary" />
+            Events &amp; Fine Catering
+          </div>
+          <h1 className="mx-auto max-w-4xl font-serif text-3xl leading-[1.08] tracking-[0.02em] text-[oklch(0.97_0.012_84.6)] sm:text-5xl md:text-6xl xl:text-7xl">
             {brand.tagline}
           </h1>
           <div className="gold-rule mx-auto mt-8" />
-          <p className="mx-auto mt-8 max-w-xl text-sm leading-relaxed text-[oklch(0.88_0.02_80)] md:text-base">
+          <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-[oklch(0.88_0.02_80)] md:text-base">
             Weddings, ceremonies and corporate gatherings designed end to end — decor,
             hospitality and menus written for your family.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="bg-secondary px-8 py-3.5 text-[0.7rem] uppercase tracking-[0.24em] text-secondary-foreground transition-opacity hover:opacity-90"
-            >
+            <Link to="/contact" className="premium-button">
               Plan Your Event
             </Link>
-            <Link
-              to="/gallery"
-              className="border border-[oklch(0.9_0.02_80_/_0.6)] px-8 py-3.5 text-[0.7rem] uppercase tracking-[0.24em] text-[oklch(0.95_0.012_84.6)] transition-colors hover:bg-white/10"
-            >
+            <Link to="/gallery" className="ghost-button">
               View Gallery
             </Link>
+          </div>
+
+          <div className="mx-auto mt-12 grid max-w-3xl gap-4 text-left sm:grid-cols-3">
+            {[
+              "Wedding styling",
+              "Luxury catering",
+              "Guest experience",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-3 text-center text-[0.58rem] uppercase tracking-[0.2em] text-[oklch(0.92_0.02_80)] backdrop-blur-sm"
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -230,8 +217,10 @@ function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-10 px-5 py-14 md:grid-cols-4 md:px-8">
           {stats.map((s) => (
             <Reveal key={s.label} className="text-center">
-              <p className="font-serif text-4xl text-primary md:text-5xl">{s.value}</p>
-              <p className="eyebrow mt-3">{s.label}</p>
+              <div className="soft-panel rounded-[22px] px-4 py-6 sm:px-5">
+                <p className="font-serif text-4xl text-primary md:text-5xl">{s.value}</p>
+                <p className="eyebrow mt-3">{s.label}</p>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -249,15 +238,15 @@ function Home() {
           <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {servicePreview.map((s, i) => (
               <Reveal key={s.slug} className={`[transition-delay:${i * 80}ms]`}>
-                <article className="group h-full border border-border bg-card shadow-soft transition-shadow hover:shadow-lift">
-                  <div className="overflow-hidden">
+                <article className="feature-card group h-full overflow-hidden rounded-[24px] border border-border bg-card">
+                  <div className="image-frame overflow-hidden">
                     <img
                       src={s.image}
                       alt={s.title}
                       loading="lazy"
                       width={1024}
                       height={768}
-                      className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                   <div className="p-6">

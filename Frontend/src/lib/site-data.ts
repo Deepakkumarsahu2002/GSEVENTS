@@ -23,7 +23,7 @@ export const brand = {
   name: "GS Events & Catering",
   tagline: "Crafting Unforgettable Celebrations",
   phone: "+91 99370 78889",
-  whatsapp: "919778512963",
+  whatsapp: "917978512963",
   email: "rozexeventmanagement@gmail.com",
   instagram: "gs_events_catering",
   instagramUrl: "https://www.instagram.com/gs_events_catering/",

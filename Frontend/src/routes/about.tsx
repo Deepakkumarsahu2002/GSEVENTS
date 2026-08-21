@@ -1,30 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { Award, Leaf, NotebookPen, Timer } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/site/Reveal";
 import { images, whyUs } from "@/lib/site-data";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Us — GS Events & Catering" },
-      {
-        name: "description",
-        content:
-          "Meet the planners and chefs behind GS Events & Catering — 15 years of designing weddings, ceremonies and corporate events across South India.",
-      },
-      { property: "og:title", content: "About GS Events & Catering" },
-      {
-        property: "og:description",
-        content: "Our story, our kitchen and the people who make every celebration run on time.",
-      },
-    ],
-  }),
-  component: About,
-});
-
 const icons = [Award, Leaf, NotebookPen, Timer];
 
-function About() {
+export function About() {
   return (
     <>
       <section className="border-b border-border bg-accent/30 px-5 py-20 text-center md:px-8 md:py-24">
