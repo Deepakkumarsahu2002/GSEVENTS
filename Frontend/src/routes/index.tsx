@@ -147,31 +147,69 @@ export function Home() {
     container.scrollBy({ left: direction * (cardWidth + gap), behavior: "smooth" });
   };
 
+  const heroSlides = [
+    {
+      image: images.heroEvent,
+      eyebrow: "Events & Fine Catering",
+      title: brand.tagline,
+      description:
+        "Weddings, ceremonies and corporate gatherings designed end to end — decor, hospitality and menus written for your family.",
+    },
+    {
+      image: images.serviceWedding,
+      eyebrow: "Signature Weddings",
+      title: "Luxury for every ritual and grand celebration",
+      description:
+        "From intimate mandaps to full-scale receptions, each celebration is styled with warmth, precision and a deeply personal point of view.",
+    },
+    {
+      image: images.serviceCatering,
+      eyebrow: "Curated Details",
+      title: "Design-led experiences that feel unmistakably yours",
+      description:
+        "Beautiful tablescapes, layered textures and guest experiences that turn moments into memories people remember for years.",
+    },
+  ];
+
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, [heroSlides.length]);
+
   const featured = photosState.slice(0, 8);
 
   return (
     <>
       <section className="relative flex min-h-[88vh] items-center justify-center overflow-hidden">
-        <img
-          src={images.heroEvent}
-          alt="Candlelit outdoor wedding reception with an ivory and gold floral mandap"
-          width={1920}
-          height={1088}
-          className="absolute inset-0 size-full object-cover"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.18),_transparent_35%),linear-gradient(90deg,rgba(43,31,23,0.78),rgba(43,31,23,0.58),rgba(43,31,23,0.72))]" />
+        {heroSlides.map((slide, index) => (
+          <img
+            key={slide.title}
+            src={slide.image}
+            alt={slide.title}
+            width={1920}
+            height={1088}
+            className={`absolute inset-0 size-full object-cover transition-all duration-1000 ease-out ${
+              activeSlide === index ? "scale-100 opacity-100" : "scale-105 opacity-0"
+            }`}
+          />
+        ))}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.18),_transparent_35%),linear-gradient(90deg,rgba(43,31,23,0.82),rgba(43,31,23,0.6),rgba(43,31,23,0.8))]" />
         <div className="relative mx-auto max-w-6xl px-5 py-28 text-center">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[0.62rem] uppercase tracking-[0.26em] text-[oklch(0.91_0.02_80)] backdrop-blur-sm">
             <span className="inline-block size-2 rounded-full bg-primary" />
-            Events &amp; Fine Catering
+            {heroSlides[activeSlide].eyebrow}
           </div>
           <h1 className="mx-auto max-w-4xl font-serif text-3xl leading-[1.08] tracking-[0.02em] text-[oklch(0.97_0.012_84.6)] sm:text-5xl md:text-6xl xl:text-7xl">
-            {brand.tagline}
+            {heroSlides[activeSlide].title}
           </h1>
           <div className="gold-rule mx-auto mt-8" />
           <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-[oklch(0.88_0.02_80)] md:text-base">
-            Weddings, ceremonies and corporate gatherings designed end to end — decor,
-            hospitality and menus written for your family.
+            {heroSlides[activeSlide].description}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link to="/contact" className="premium-button">
@@ -182,18 +220,17 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="mx-auto mt-12 grid max-w-3xl gap-4 text-left sm:grid-cols-3">
-            {[
-              "Wedding styling",
-              "Luxury catering",
-              "Guest experience",
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-full border border-white/10 bg-white/5 px-4 py-3 text-center text-[0.58rem] uppercase tracking-[0.2em] text-[oklch(0.92_0.02_80)] backdrop-blur-sm"
-              >
-                {item}
-              </div>
+          <div className="mt-8 flex items-center justify-center gap-2">
+            {heroSlides.map((slide, index) => (
+              <button
+                key={slide.title}
+                type="button"
+                aria-label={`Show slide ${index + 1}`}
+                onClick={() => setActiveSlide(index)}
+                className={`h-2.5 rounded-full transition-all ${
+                  activeSlide === index ? "w-10 bg-primary" : "w-2.5 bg-white/50 hover:bg-white/80"
+                }`}
+              />
             ))}
           </div>
         </div>
