@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /atelier-suite-9x4f
+Disallow: /atelier-suite-9x4f/
+
+Sitemap: /sitemap.xml
